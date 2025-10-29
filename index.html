@@ -3,13 +3,32 @@
 <head>
   <meta charset="utf-8">
   <title>{{ site.title }}</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    input { width: 100%; padding: 8px; font-size: 1rem; margin-bottom: 1rem; }
+  </style>
 </head>
 <body>
   <h1>{{ site.title }}</h1>
-  <ul>
+  <input type="text" id="searchBox" placeholder="Bir kelime ara...">
+  <ul id="wordList">
     {% for word in site.words %}
       <li><a href="{{ word.url }}">{{ word.title }}</a></li>
     {% endfor %}
   </ul>
+
+  <script>
+    const searchBox = document.getElementById('searchBox');
+    const wordList = document.getElementById('wordList');
+    const listItems = wordList.getElementsByTagName('li');
+
+    searchBox.addEventListener('input', function() {
+      const searchValue = this.value.toLowerCase();
+      for (let i = 0; i < listItems.length; i++) {
+        const text = listItems[i].textContent.toLowerCase();
+        listItems[i].style.display = text.includes(searchValue) ? '' : 'none';
+      }
+    });
+  </script>
 </body>
 </html>
