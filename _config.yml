@@ -1,6 +1,6 @@
 title: Türkçe Sözlük
-baseurl: ""
-url: "https://merdeki.github.io/turkce-sozluk"
+url: "https://merdeki.github.io"
+baseurl: "/turkce-sozluk"
 theme: minima
 collections:
   words:
