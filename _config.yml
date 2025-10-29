@@ -1,0 +1,7 @@
+title: Türkçe Sözlük
+baseurl: ""
+url: "https://merdeki.github.io/turkce-sozluk"
+theme: minima
+collections:
+  words:
+    output: true
