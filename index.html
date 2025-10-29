@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>{{ site.title }}</title>
+</head>
+<body>
+  <h1>{{ site.title }}</h1>
+  <ul>
+    {% for word in site.words %}
+      <li><a href="{{ word.url }}">{{ word.title }}</a></li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
