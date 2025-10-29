@@ -6,13 +6,30 @@
   <style>
     body { font-family: sans-serif; margin: 2rem; }
     input { width: 100%; padding: 8px; font-size: 1rem; margin-bottom: 1rem; }
+    .alphabet { margin-bottom: 1rem; }
+    .alphabet button {
+      margin: 2px; padding: 5px 8px; font-size: 1rem; cursor: pointer;
+      border: 1px solid #ccc; background: #f5f5f5; border-radius: 4px;
+    }
+    .alphabet button:hover { background: #ddd; }
   </style>
 </head>
 <body>
   <h1>{{ site.title }}</h1>
+
   <input type="text" id="searchBox" placeholder="Bir kelime ara...">
+
+  <div class="alphabet">
+    {% assign letters = "A,B,C,Ç,D,E,F,G,Ğ,H,I,İ,J,K,L,M,N,O,Ö,P,R,S,Ş,T,U,Ü,V,Y,Z" | split: "," %}
+    {% for letter in letters %}
+      <button onclick="filterByLetter('{{ letter | downcase }}')">{{ letter }}</button>
+    {% endfor %}
+    <button onclick="filterByLetter('all')">Tümü</button>
+  </div>
+
   <ul id="wordList">
-    {% for word in site.words %}
+    {% assign sorted_words = site.words | sort: 'title' %}
+    {% for word in sorted_words %}
       <li><a href="{{ word.url }}">{{ word.title }}</a></li>
     {% endfor %}
   </ul>
@@ -22,6 +39,7 @@
     const wordList = document.getElementById('wordList');
     const listItems = wordList.getElementsByTagName('li');
 
+    // Search by typing
     searchBox.addEventListener('input', function() {
       const searchValue = this.value.toLowerCase();
       for (let i = 0; i < listItems.length; i++) {
@@ -29,6 +47,19 @@
         listItems[i].style.display = text.includes(searchValue) ? '' : 'none';
       }
     });
+
+    // Filter by first letter
+    function filterByLetter(letter) {
+      searchBox.value = '';
+      for (let i = 0; i < listItems.length; i++) {
+        const text = listItems[i].textContent.trim().toLowerCase();
+        if (letter === 'all' || text.startsWith(letter)) {
+          listItems[i].style.display = '';
+        } else {
+          listItems[i].style.display = 'none';
+        }
+      }
+    }
   </script>
 </body>
 </html>
