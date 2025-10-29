@@ -1,0 +1,40 @@
+---
+layout: default
+---
+
+<input type="text" id="searchBox" placeholder="Kelime ara...">
+
+<div class="alphabet">
+  {% assign letters = "A,B,C,Ç,D,E,F,G,Ğ,H,I,İ,J,K,L,M,N,O,Ö,P,R,S,Ş,T,U,Ü,V,Y,Z" | split: "," %}
+  {% for letter in letters %}
+    <button onclick="filterByLetter('{{ letter | downcase }}')">{{ letter }}</button>
+  {% endfor %}
+  <button onclick="filterByLetter('all')">Tümü</button>
+</div>
+
+<ul id="wordList">
+  {% assign sorted_words = site.words | sort: 'title' %}
+  {% for word in sorted_words %}
+    <li><a href="{{ site.url }}{{ site.baseurl }}{{ word.url }}">{{ word.title }}</a></li>
+  {% endfor %}
+</ul>
+
+<script>
+const searchBox = document.getElementById('searchBox');
+const listItems = document.getElementById('wordList').getElementsByTagName('li');
+
+searchBox.addEventListener('input', function() {
+  const val = this.value.toLowerCase();
+  for (let i = 0; i < listItems.length; i++) {
+    listItems[i].style.display = listItems[i].textContent.toLowerCase().includes(val) ? '' : 'none';
+  }
+});
+
+function filterByLetter(letter) {
+  searchBox.value = '';
+  for (let i = 0; i < listItems.length; i++) {
+    const text = listItems[i].textContent.trim().toLowerCase();
+    listItems[i].style.display = (letter==='all' || text.startsWith(letter)) ? '' : 'none';
+  }
+}
+</script>
